@@ -6,7 +6,7 @@ def sync_event_status(event, db):
 
     if (
         event.status == "ACTIVE"
-        and event.event_date < datetime.now(UTC)
+        and event.event_date < datetime.utcnow()
     ):
         event.status = "COMPLETED"
         event.registration_open = False

@@ -43,14 +43,14 @@ def create_event(
 def get_events(
     db: Session = Depends(get_db)
 ):
-    events= db.query(Event).filter(
-        Event.status == "ACTIVE"
-    ).all()
+    events= db.query(Event).all()
 
     for event in events:
         sync_event_status(event, db)
     
-    return events
+    db.commit()  
+
+    return db.query(Event).filter(Event.status == "ACTIVE").all()
 
 @router.get("/events/{event_id}")
 def get_event(
